@@ -145,57 +145,33 @@ class ViCareClimate(ClimateDevice):
             self._attributes["active_vicare_mode"] = self._current_mode
             self._attributes["heating_curve_slope"] = self._api.getHeatingCurveSlope()
             self._attributes["heating_curve_shift"] = self._api.getHeatingCurveShift()
-            self._attributes[
-                "month_since_last_service"
-            ] = self._api.getMonthSinceLastService()
+            self._attributes["month_since_last_service"] = self._api.getMonthSinceLastService()
             self._attributes["date_last_service"] = self._api.getLastServiceDate()
             self._attributes["error_history"] = self._api.getErrorHistory()
             self._attributes["active_error"] = self._api.getActiveError()
-            self._attributes[
-                "circulationpump_active"
-            ] = self._api.getCirculationPumpActive()
+            self._attributes["circulationpump_active"] = self._api.getCirculationPumpActive()
 
             # Update the specific device attributes
-            if self._heating_type == HeatingType.gas:
+            if self._heating_type == HeatingType.gas or self._heating_type == HeatingType.oil:
                 self._current_action = self._api.getBurnerActive()
-
                 self._attributes["burner_modulation"] = self._api.getBurnerModulation()
-                self._attributes[
-                    "boiler_temperature"
-                ] = self._api.getBoilerTemperature()
+                self._attributes["burner_hours"] = self._api.getBurnerHours()
+                self._attributes["boiler_temperature"] = self._api.getBoilerTemperature()
                 
-                self._attributes["current_power"] = self._api.getCurrentPower()
-                self._attributes[
-                    "gas_consumption_heating_days"
-                ] = self._api.getGasConsumptionHeatingDays()
-                self._attributes[
-                    "gas_consumption_heating_today"
-                ] = self._api.getGasConsumptionHeatingToday()
-                self._attributes[
-                    "gas_consumption_heating_weeks"
-                ] = self._api.getGasConsumptionHeatingWeeks()
-                self._attributes[
-                    "gas_consumption_heating_this_week"
-                ] = self._api.getGasConsumptionHeatingThisWeek()
-                self._attributes[
-                    "gas_consumption_heating_months"
-                ] = self._api.getGasConsumptionHeatingMonths()
-                self._attributes[
-                    "gas_consumption_heating_this_month"
-                ] = self._api.getGasConsumptionHeatingThisMonth()
-                self._attributes[
-                    "gas_consumption_heating_years"
-                ] = self._api.getGasConsumptionHeatingYears()
-                self._attributes[
-                    "gas_consumption_heating_this_year"
-                ] = self._api.getGasConsumptionHeatingThisYear()
+                if self._heating_type == HeatingType.gas:  
+                    self._attributes["current_power"] = self._api.getCurrentPower()
+                    self._attributes["gas_consumption_heating_days"] = self._api.getGasConsumptionHeatingDays()
+                    self._attributes["gas_consumption_heating_today"] = self._api.getGasConsumptionHeatingToday()
+                    self._attributes["gas_consumption_heating_weeks"] = self._api.getGasConsumptionHeatingWeeks()
+                    self._attributes["gas_consumption_heating_this_week"] = self._api.getGasConsumptionHeatingThisWeek()
+                    self._attributes["gas_consumption_heating_months"] = self._api.getGasConsumptionHeatingMonths()
+                    self._attributes["gas_consumption_heating_this_month"] = self._api.getGasConsumptionHeatingThisMonth()
+                    self._attributes["gas_consumption_heating_years"] = self._api.getGasConsumptionHeatingYears()
+                    self._attributes["gas_consumption_heating_this_year"]= self._api.getGasConsumptionHeatingThisYear()
 
             elif self._heating_type == HeatingType.heatpump:
                 self._current_action = self._api.getCompressorActive()
-
-                self._attributes[
-                    "return_temperature"
-                ] = self._api.getReturnTemperature()
+                self._attributes["return_temperature"] = self._api.getReturnTemperature()
         except requests.exceptions.ConnectionError:
             _LOGGER.error("Unable to retrieve data from ViCare server")
         except ValueError:
