@@ -158,7 +158,7 @@ class ViCareClimate(ClimateDevice):
                 self._attributes["burner_starts"] = self._api.getBurnerStarts()
                 
                 # gas specific attributes
-                if self._heating_type == HeatingType.gas
+                if self._heating_type == HeatingType.gas:
                     self._attributes["burner_power"] = self._api.getCurrentPower()
                     self._attributes["current_power"] = self._api.getCurrentPower()
                     self._attributes["gas_consumption_heating_days"] = self._api.getGasConsumptionHeatingDays()
