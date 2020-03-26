@@ -4,6 +4,7 @@ import logging
 
 from PyViCare.PyViCareDevice import Device
 from PyViCare.PyViCareGazBoiler import GazBoiler
+from PyViCare.PyViCareGazBoiler import OilBoiler
 from PyViCare.PyViCareHeatPump import HeatPump
 import voluptuous as vol
 
@@ -31,6 +32,7 @@ class HeatingType(enum.Enum):
 
     generic = "generic"
     gas = "gas"
+    oil = "oil"
     heatpump = "heatpump"
 
 
@@ -70,6 +72,8 @@ def setup(hass, config):
     try:
         if heating_type == HeatingType.gas:
             vicare_api = GazBoiler(conf[CONF_USERNAME], conf[CONF_PASSWORD], **params)
+        elif heating_type == HeatingType.oil:
+            vicare_api = OilBoiler(conf[CONF_USERNAME], conf[CONF_PASSWORD], **params)
         elif heating_type == HeatingType.heatpump:
             vicare_api = HeatPump(conf[CONF_USERNAME], conf[CONF_PASSWORD], **params)
         else:
